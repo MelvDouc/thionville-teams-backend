@@ -1,7 +1,6 @@
 package com.chess.thionvilleteams.controller;
 
 import com.chess.thionvilleteams.model.Player;
-import com.chess.thionvilleteams.repository.PlayerRepository;
 import com.chess.thionvilleteams.service.ApiService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,32 +14,30 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 public class PlayerController {
     private final ApiService apiService;
-    private final PlayerRepository playerRepository;
 
     public PlayerController(ApiService apiService) {
         this.apiService = apiService;
-        this.playerRepository = apiService.getPlayerRepository();
     }
 
     @GetMapping
-    public ResponseEntity<Player> getPlayerById(@RequestParam("id") long id) {
+    public ResponseEntity<Player> getOne(@RequestParam("id") long id) {
         return new ResponseEntity<>(
-            apiService.getEntityById(playerRepository, id),
+            apiService.getEntityById(apiService.PLAYER_REPO, id),
             HttpStatus.OK
         );
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public ResponseEntity<List<Player>> getPlayers(@RequestParam("team_id") Optional<Long> teamId) {
+    public ResponseEntity<List<Player>> getAll(@RequestParam("team_id") Optional<Long> teamId) {
         final long id = teamId.orElse(0L);
-        if (id != 0L) return getPlayersByTeamId(id);
+        if (id != 0L) return getAllByTeamId(id);
         return new ResponseEntity<>(
-            apiService.getAllEntities(playerRepository),
+            apiService.getAllEntities(apiService.PLAYER_REPO),
             HttpStatus.OK
         );
     }
 
-    private ResponseEntity<List<Player>> getPlayersByTeamId(long teamId) {
+    private ResponseEntity<List<Player>> getAllByTeamId(long teamId) {
         return new ResponseEntity<>(
             apiService.getPlayersByTeamId(teamId),
             HttpStatus.OK
@@ -48,15 +45,15 @@ public class PlayerController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<Player> createPlayer(@RequestBody Player player) {
+    public ResponseEntity<Player> createOne(@RequestBody Player player) {
         return new ResponseEntity<>(
-            apiService.createEntity(playerRepository, player),
+            apiService.createEntity(apiService.PLAYER_REPO, player),
             HttpStatus.OK
         );
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity<Player> updatePlayer(@RequestBody Player player, @RequestParam long id) {
+    public ResponseEntity<Player> updateOne(@RequestBody Player player, @RequestParam long id) {
         return new ResponseEntity<>(
             apiService.updatePlayer(player, id), HttpStatus.OK
         );

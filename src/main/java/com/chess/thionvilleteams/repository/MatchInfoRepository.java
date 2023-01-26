@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface MatchInfoRepository extends JpaRepository<MatchInfo, Long> {
@@ -21,7 +21,8 @@ public interface MatchInfoRepository extends JpaRepository<MatchInfo, Long> {
             "FROM tchMatch" +
             "  JOIN team wTeam ON wTeam.id = whiteTeamId" +
             "  JOIN team bTeam ON bTeam.id = blackTeamId " +
-            "WHERE tchMatch.id = ?1 " +
-            "LIMIT 1")
-    Optional<MatchInfo> findById(long matchId);
+            "WHERE season = ?1" +
+            "  AND (whiteTeamId = ?2 OR blackTeamId = ?2) " +
+            "ORDER BY date")
+    List<MatchInfo> findBySeasonAndTeamId(int season, long teamId);
 }

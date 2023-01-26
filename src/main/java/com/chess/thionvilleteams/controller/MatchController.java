@@ -19,23 +19,23 @@ public class MatchController {
     }
 
     @GetMapping
-    public ResponseEntity<Match> getMatchById(@RequestParam("id") long id) {
+    public ResponseEntity<Match> getOne(@RequestParam("id") long id) {
         return new ResponseEntity<>(
-            apiService.getEntityById(apiService.getTchMatchRepository(), id),
+            apiService.getEntityById(apiService.MATCH_REPO, id),
             HttpStatus.OK
         );
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public ResponseEntity<List<Match>> getMatches() {
+    public ResponseEntity<List<Match>> getAll() {
         return new ResponseEntity<>(
-                apiService.getAllEntities(apiService.getTchMatchRepository()),
+                apiService.getAllEntities(apiService.MATCH_REPO),
                 HttpStatus.OK
         );
     }
 
     @RequestMapping(path = "/full-info", method = RequestMethod.GET)
-    public ResponseEntity<MatchInfo> getTchMatchFullInfo(@RequestParam("match_id") long matchId) {
-        return new ResponseEntity<>(apiService.getTchMatchFullInfo(matchId), HttpStatus.OK);
+    public ResponseEntity<List<MatchInfo>> getMatchesInfo(@RequestParam("season") int season, @RequestParam("team_id") long teamId) {
+        return new ResponseEntity<>(apiService.getMatchesInfoBySeasonAndTeamId(season, teamId), HttpStatus.OK);
     }
 }

@@ -16,10 +16,10 @@ import java.util.*;
 
 @Service
 public class ApiService {
-    private final PlayerRepository playerRepository;
-    private final TeamRepository teamRepository;
-    private final MatchRepository matchRepository;
-    private final MatchInfoRepository matchInfoRepository;
+    public final PlayerRepository PLAYER_REPO;
+    public final TeamRepository TEAM_REPO;
+    public final MatchRepository MATCH_REPO;
+    public final MatchInfoRepository MATCH_INFO_REPO;
 
     public ApiService(
         PlayerRepository playerRepository,
@@ -27,10 +27,10 @@ public class ApiService {
         MatchRepository matchRepository,
         MatchInfoRepository matchInfoRepository
     ) {
-        this.playerRepository = playerRepository;
-        this.teamRepository = teamRepository;
-        this.matchRepository = matchRepository;
-        this.matchInfoRepository = matchInfoRepository;
+        this.PLAYER_REPO = playerRepository;
+        this.TEAM_REPO = teamRepository;
+        this.MATCH_REPO = matchRepository;
+        this.MATCH_INFO_REPO = matchInfoRepository;
     }
 
     private String getUpdatedAt() {
@@ -39,18 +39,6 @@ public class ApiService {
         dateFormat.setTimeZone(timeZone);
         return dateFormat.format(new Date());
     }
-
-    public PlayerRepository getPlayerRepository() {
-        return playerRepository;
-    }
-
-    public TeamRepository getTeamRepository() {
-        return teamRepository;
-    }
-
-    public MatchRepository getTchMatchRepository() { return matchRepository; }
-
-    public MatchInfoRepository getTchMatchFullInfoRepository() { return matchInfoRepository; }
 
     public <T> T getEntityById(JpaRepository<T, Long> repository, long id) throws ResourceNotFoundException {
         Optional<T> entity = repository.findById(id);
@@ -61,13 +49,8 @@ public class ApiService {
         throw new ResourceNotFoundException(entity.getClass().getName(), "id", id);
     }
 
-    public MatchInfo getTchMatchFullInfo(long matchId) {
-        Optional<MatchInfo> tchMatchFullInfo = matchInfoRepository.findById(matchId);
-
-        if (tchMatchFullInfo.isPresent())
-            return tchMatchFullInfo.get();
-
-        throw new ResourceNotFoundException("TchMatchFullInfo", "matchId", matchId);
+    public List<MatchInfo> getMatchesInfoBySeasonAndTeamId(int season, long teamId) {
+        return MATCH_INFO_REPO.findBySeasonAndTeamId(season, teamId);
     }
 
     public <T> List<T> getAllEntities(JpaRepository<T, Long> repository) {
@@ -75,7 +58,7 @@ public class ApiService {
     }
 
     public List<Player> getPlayersByTeamId(long teamId) {
-        return playerRepository.findAllByTeamIdOrderByRatingDesc(teamId);
+        return PLAYER_REPO.findAllByTeamIdOrderByRatingDesc(teamId);
     }
 
     public <T> T createEntity(JpaRepository<T, Long> repository, T entity) {
@@ -83,7 +66,7 @@ public class ApiService {
     }
 
     public Player updatePlayer(Player player, long id) {
-        Player playerInDb = getEntityById(playerRepository, id);
+        Player playerInDb = getEntityById(PLAYER_REPO, id);
 
         if (player.getFfeId() != null)
             playerInDb.setFfeId(player.getFfeId());
@@ -101,6 +84,6 @@ public class ApiService {
             playerInDb.setTeamId(player.getTeamId());
         playerInDb.setUpdatedAt(getUpdatedAt());
 
-        return playerRepository.save(playerInDb);
+        return PLAYER_REPO.save(playerInDb);
     }
 }
