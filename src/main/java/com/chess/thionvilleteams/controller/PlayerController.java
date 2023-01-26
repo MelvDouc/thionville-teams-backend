@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/players")
+@SuppressWarnings("unused")
 public class PlayerController {
     private final ApiService apiService;
     private final PlayerRepository playerRepository;

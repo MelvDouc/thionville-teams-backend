@@ -2,7 +2,10 @@ package com.chess.thionvilleteams.service;
 
 import com.chess.thionvilleteams.exception.ResourceNotFoundException;
 import com.chess.thionvilleteams.model.Player;
+import com.chess.thionvilleteams.model.MatchInfo;
 import com.chess.thionvilleteams.repository.PlayerRepository;
+import com.chess.thionvilleteams.repository.MatchInfoRepository;
+import com.chess.thionvilleteams.repository.MatchRepository;
 import com.chess.thionvilleteams.repository.TeamRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -15,10 +18,19 @@ import java.util.*;
 public class ApiService {
     private final PlayerRepository playerRepository;
     private final TeamRepository teamRepository;
+    private final MatchRepository matchRepository;
+    private final MatchInfoRepository matchInfoRepository;
 
-    public ApiService(PlayerRepository playerRepository, TeamRepository teamRepository) {
+    public ApiService(
+        PlayerRepository playerRepository,
+        TeamRepository teamRepository,
+        MatchRepository matchRepository,
+        MatchInfoRepository matchInfoRepository
+    ) {
         this.playerRepository = playerRepository;
         this.teamRepository = teamRepository;
+        this.matchRepository = matchRepository;
+        this.matchInfoRepository = matchInfoRepository;
     }
 
     private String getUpdatedAt() {
@@ -36,6 +48,10 @@ public class ApiService {
         return teamRepository;
     }
 
+    public MatchRepository getTchMatchRepository() { return matchRepository; }
+
+    public MatchInfoRepository getTchMatchFullInfoRepository() { return matchInfoRepository; }
+
     public <T> T getEntityById(JpaRepository<T, Long> repository, long id) throws ResourceNotFoundException {
         Optional<T> entity = repository.findById(id);
 
@@ -43,6 +59,15 @@ public class ApiService {
             return entity.get();
 
         throw new ResourceNotFoundException(entity.getClass().getName(), "id", id);
+    }
+
+    public MatchInfo getTchMatchFullInfo(long matchId) {
+        Optional<MatchInfo> tchMatchFullInfo = matchInfoRepository.findById(matchId);
+
+        if (tchMatchFullInfo.isPresent())
+            return tchMatchFullInfo.get();
+
+        throw new ResourceNotFoundException("TchMatchFullInfo", "matchId", matchId);
     }
 
     public <T> List<T> getAllEntities(JpaRepository<T, Long> repository) {

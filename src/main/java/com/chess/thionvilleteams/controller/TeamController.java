@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/teams")
+@SuppressWarnings("unused")
 public class TeamController {
     private final ApiService apiService;
     private final TeamRepository teamRepository;
