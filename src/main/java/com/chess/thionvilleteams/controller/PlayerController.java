@@ -1,7 +1,7 @@
 package com.chess.thionvilleteams.controller;
 
 import com.chess.thionvilleteams.model.Player;
-import com.chess.thionvilleteams.service.ApiService;
+import com.chess.thionvilleteams.service.PlayerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +13,17 @@ import java.util.Optional;
 @RequestMapping("/api/v1/players")
 @SuppressWarnings("unused")
 public class PlayerController {
-    private final ApiService apiService;
+    private final PlayerService service;
 
-    public PlayerController(ApiService apiService) {
-        this.apiService = apiService;
+    public PlayerController(PlayerService playerService) {
+        this.service = playerService;
     }
 
     @GetMapping
     public ResponseEntity<Player> getOne(@RequestParam("id") long id) {
         return new ResponseEntity<>(
-            apiService.getEntityById(apiService.PLAYER_REPO, id),
-            HttpStatus.OK
+                service.getById(id),
+                HttpStatus.OK
         );
     }
 
@@ -31,31 +31,26 @@ public class PlayerController {
     public ResponseEntity<List<Player>> getAll(@RequestParam("team_id") Optional<Long> teamId) {
         final long id = teamId.orElse(0L);
         if (id != 0L) return getAllByTeamId(id);
-        return new ResponseEntity<>(
-            apiService.getAllEntities(apiService.PLAYER_REPO),
-            HttpStatus.OK
-        );
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     private ResponseEntity<List<Player>> getAllByTeamId(long teamId) {
-        return new ResponseEntity<>(
-            apiService.getPlayersByTeamId(teamId),
-            HttpStatus.OK
-        );
+        return new ResponseEntity<>(service.getAllByTeamId(teamId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<Player> createOne(@RequestBody Player player) {
-        return new ResponseEntity<>(
-            apiService.createEntity(apiService.PLAYER_REPO, player),
-            HttpStatus.OK
-        );
+        return new ResponseEntity<>(service.create(player), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public ResponseEntity<Player> updateOne(@RequestBody Player player, @RequestParam long id) {
-        return new ResponseEntity<>(
-            apiService.updatePlayer(player, id), HttpStatus.OK
-        );
+    public ResponseEntity<Player> updateOne(@RequestBody Player player, @RequestParam("id") long id) {
+        return new ResponseEntity<>(service.update(player, id), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public ResponseEntity<Long> deleteOne(@RequestParam("id") long id) {
+        service.delete(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }
