@@ -14,9 +14,12 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MatchController {
     private final MatchService service;
+    private final MatchRepository matchRepository;
 
-    public MatchController(MatchService matchService) {
+    public MatchController(MatchService matchService,
+                           MatchRepository matchRepository) {
         this.service = matchService;
+        this.matchRepository = matchRepository;
     }
 
     @GetMapping
@@ -29,8 +32,13 @@ public class MatchController {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/full-info", method = RequestMethod.GET)
-    public ResponseEntity<List<MatchRepository.IMatchInfo>> getMatchesInfo(@RequestParam("season") int season, @RequestParam("team_id") long teamId) {
-        return new ResponseEntity<>(service.getMatchesInfoBySeasonAndTeamId(season, teamId), HttpStatus.OK);
+    @RequestMapping(path = "/board-info", method = RequestMethod.GET)
+    public ResponseEntity<List<MatchRepository.BoardInfo>> getBoardInfoList(@RequestParam("match_id") long matchId) {
+        return new ResponseEntity<>(matchRepository.getBoardInfoList(matchId), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/match-info", method = RequestMethod.GET)
+    public ResponseEntity<List<MatchRepository.MatchInfo>> getMatchInfoList(@RequestParam("season") int season, @RequestParam("team_id") long teamId) {
+        return new ResponseEntity<>(service.getMatchInfoListBySeasonAndTeamId(season, teamId), HttpStatus.OK);
     }
 }

@@ -22,24 +22,25 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "WHERE season = :season" +
             "  AND (whiteTeamId = :teamId OR blackTeamId = :teamId) " +
             "ORDER BY date")
-    List<IMatchInfo> findBySeasonAndTeamId(int season, long teamId);
+    List<MatchInfo> findBySeasonAndTeamId(int season, long teamId);
 
-    @SuppressWarnings("unused")
-    interface IMatchInfo {
-        long getId();
+    @Query(nativeQuery = true, value = "SELECT" +
+            "  ffeId," +
+            "  firstName," +
+            "  lastName," +
+            "  bf.board," +
+            "  IF((board % 2 = 1) = (whiteTeamId = player.teamId), 'B', 'N') AS color," +
+            "  bf.result " +
+            "FROM boardInfo bf" +
+            "  JOIN player ON bf.playerId = player.id" +
+            "  JOIN tchMatch ON bf.matchId = tchMatch.id " +
+            "WHERE tchMatch.id = :matchId" +
+            "  ORDER BY player.rating DESC")
+    List<BoardInfo> getBoardInfoList(long matchId);
 
-        int getRound();
+    interface MatchInfo extends IMatchInfo {
+    }
 
-        String getWhiteTeam();
-
-        String getBlackTeam();
-
-        String getAddress();
-
-        String getCity();
-
-        String getZip();
-
-        String getDate();
+    interface BoardInfo extends IBoardInfo {
     }
 }

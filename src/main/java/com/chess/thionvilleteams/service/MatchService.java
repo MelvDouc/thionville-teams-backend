@@ -31,8 +31,12 @@ public class MatchService implements IService<Match> {
         return matchRepository.findAll();
     }
 
-    public List<MatchRepository.IMatchInfo> getMatchesInfoBySeasonAndTeamId(int season, long teamId) {
+    public List<MatchRepository.MatchInfo> getMatchInfoListBySeasonAndTeamId(int season, long teamId) {
         return matchRepository.findBySeasonAndTeamId(season, teamId);
+    }
+
+    public List<MatchRepository.BoardInfo> getBoardInfoList(long matchId) {
+        return matchRepository.getBoardInfoList(matchId);
     }
 
     @Override
