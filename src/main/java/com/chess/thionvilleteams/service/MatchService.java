@@ -2,8 +2,6 @@ package com.chess.thionvilleteams.service;
 
 import com.chess.thionvilleteams.exception.ResourceNotFoundException;
 import com.chess.thionvilleteams.model.Match;
-import com.chess.thionvilleteams.model.MatchInfo;
-import com.chess.thionvilleteams.repository.MatchInfoRepository;
 import com.chess.thionvilleteams.repository.MatchRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +11,9 @@ import java.util.Optional;
 @Service
 public class MatchService implements IService<Match> {
     private final MatchRepository matchRepository;
-    private final MatchInfoRepository matchInfoRepository;
 
-    public MatchService(MatchRepository matchRepository, MatchInfoRepository matchInfoRepository) {
+    public MatchService(MatchRepository matchRepository) {
         this.matchRepository = matchRepository;
-        this.matchInfoRepository = matchInfoRepository;
     }
 
     @Override
@@ -35,8 +31,8 @@ public class MatchService implements IService<Match> {
         return matchRepository.findAll();
     }
 
-    public List<MatchInfo> getMatchesInfoBySeasonAndTeamId(int season, long teamId) {
-        return matchInfoRepository.findBySeasonAndTeamId(season, teamId);
+    public List<MatchRepository.IMatchInfo> getMatchesInfoBySeasonAndTeamId(int season, long teamId) {
+        return matchRepository.findBySeasonAndTeamId(season, teamId);
     }
 
     @Override

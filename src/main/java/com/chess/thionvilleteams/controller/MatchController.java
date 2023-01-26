@@ -1,7 +1,7 @@
 package com.chess.thionvilleteams.controller;
 
 import com.chess.thionvilleteams.model.Match;
-import com.chess.thionvilleteams.model.MatchInfo;
+import com.chess.thionvilleteams.repository.MatchRepository;
 import com.chess.thionvilleteams.service.MatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class MatchController {
     }
 
     @RequestMapping(path = "/full-info", method = RequestMethod.GET)
-    public ResponseEntity<List<MatchInfo>> getMatchesInfo(@RequestParam("season") int season, @RequestParam("team_id") long teamId) {
+    public ResponseEntity<List<MatchRepository.IMatchInfo>> getMatchesInfo(@RequestParam("season") int season, @RequestParam("team_id") long teamId) {
         return new ResponseEntity<>(service.getMatchesInfoBySeasonAndTeamId(season, teamId), HttpStatus.OK);
     }
 }
