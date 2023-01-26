@@ -21,10 +21,7 @@ public class PlayerController {
 
     @GetMapping
     public ResponseEntity<Player> getOne(@RequestParam("id") long id) {
-        return new ResponseEntity<>(
-                service.getById(id),
-                HttpStatus.OK
-        );
+        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
