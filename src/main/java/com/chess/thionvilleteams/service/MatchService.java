@@ -35,10 +35,6 @@ public class MatchService implements IService<Match> {
         return matchRepository.findBySeasonAndTeamId(season, teamId);
     }
 
-    /* public List<MatchRepository.BoardInfo> getBoardInfoList(long matchId) {
-        return matchRepository.findBoardInfoListByMatchId(matchId);
-    } */
-
     @Override
     public Match create(Match match) {
         return matchRepository.save(match);
