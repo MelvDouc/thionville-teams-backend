@@ -1,27 +1,30 @@
 package com.chess.thionvilleteams.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name="player")
+@Table(name = "player")
 public class Player {
     @Id
     private long id;
-    @Column(name="ffeId", length=6, nullable=false)
+    @Column(name = "ffeId", length = 6, nullable = false)
     private String ffeId;
-    @Column(name="lastName", length=50)
+    @Column(name = "lastName", length = 50)
     private String lastName;
-    @Column(name="firstName", length=50)
+    @Column(name = "firstName", length = 50)
     private String firstName;
-    @Column(name="email", length=100)
+    @Column(name = "email", length = 100)
     private String email;
-    @Column(name="tel", length=20)
+    @Column(name = "tel", length = 20)
     private String tel;
-    @Column(name="rating")
+    @Column(name = "rating")
     private int rating;
-    @Column(name="teamId")
+    @Column(name = "teamId")
     private int teamId;
-    @Column(name="updatedAt")
+    @Column(name = "updatedAt")
     private String updatedAt;
 
     public long getId() {
