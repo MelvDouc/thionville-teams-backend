@@ -31,13 +31,13 @@ public class MatchService implements IService<Match> {
         return matchRepository.findAll();
     }
 
-    public List<MatchRepository.MatchInfo> getMatchInfoListBySeasonAndTeamId(int season, long teamId) {
+    public List<Match> getMatchInfoListBySeasonAndTeamId(int season, long teamId) {
         return matchRepository.findBySeasonAndTeamId(season, teamId);
     }
 
-    public List<MatchRepository.BoardInfo> getBoardInfoList(long matchId) {
-        return matchRepository.getBoardInfoList(matchId);
-    }
+    /* public List<MatchRepository.BoardInfo> getBoardInfoList(long matchId) {
+        return matchRepository.findBoardInfoListByMatchId(matchId);
+    } */
 
     @Override
     public Match create(Match match) {
@@ -50,12 +50,12 @@ public class MatchService implements IService<Match> {
 
         if (match.getRound() != matchInDb.getRound())
             matchInDb.setRound(match.getRound());
-        if (match.getWhiteTeamId() != matchInDb.getWhiteTeamId())
-            matchInDb.setWhiteTeamId(match.getWhiteTeamId());
-        if (match.getBlackTeamId() != matchInDb.getBlackTeamId())
-            matchInDb.setBlackTeamId(match.getBlackTeamId());
-        if (match.getHomeTeamId() != matchInDb.getHomeTeamId())
-            matchInDb.setHomeTeamId(match.getHomeTeamId());
+        if (match.getWhiteTeam().getId() != matchInDb.getWhiteTeam().getId())
+            matchInDb.setWhiteTeam(match.getWhiteTeam());
+        if (match.getBlackTeam().getId() != matchInDb.getBlackTeam().getId())
+            matchInDb.setBlackTeam(match.getBlackTeam());
+        if (match.isWhiteHome() != matchInDb.isWhiteHome())
+            matchInDb.setWhiteHome(match.isWhiteHome());
         if (match.getSeason() != matchInDb.getSeason())
             matchInDb.setSeason(match.getSeason());
         if (!match.getDate().equals(matchInDb.getDate()))

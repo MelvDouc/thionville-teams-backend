@@ -10,12 +10,14 @@ public class Match {
     private long id;
     @Column(name = "round", nullable = false)
     private int round;
-    @Column(name = "whiteTeamId", nullable = false)
-    private long whiteTeamId;
-    @Column(name = "blackTeamId", nullable = false)
-    private long blackTeamId;
-    @Column(name = "homeTeamId", nullable = false)
-    private long homeTeamId;
+    @ManyToOne
+    @JoinColumn(name = "whiteTeamId", nullable = false)
+    private Team whiteTeam;
+    @ManyToOne
+    @JoinColumn(name = "blackTeamId", nullable = false)
+    private Team blackTeam;
+    @Column(name = "isWhiteHome", nullable = false)
+    private boolean isWhiteHome;
     @Column(name = "season", nullable = false)
     private int season;
     @Column(name = "date", nullable = false)
@@ -37,28 +39,34 @@ public class Match {
         this.round = round;
     }
 
-    public long getWhiteTeamId() {
-        return whiteTeamId;
+    public Team getWhiteTeam() {
+        return whiteTeam;
     }
 
-    public void setWhiteTeamId(long whiteTeamId) {
-        this.whiteTeamId = whiteTeamId;
+    public void setWhiteTeam(Team whiteTeam) {
+        this.whiteTeam = whiteTeam;
     }
 
-    public long getBlackTeamId() {
-        return blackTeamId;
+    public Team getBlackTeam() {
+        return blackTeam;
     }
 
-    public void setBlackTeamId(long blackTeamId) {
-        this.blackTeamId = blackTeamId;
+    public void setBlackTeam(Team blackTeam) {
+        this.blackTeam = blackTeam;
     }
 
-    public long getHomeTeamId() {
-        return homeTeamId;
+    public Team getHomeTeam() {
+        return (isWhiteHome)
+                ? this.getWhiteTeam()
+                : this.getBlackTeam();
     }
 
-    public void setHomeTeamId(long homeTeamId) {
-        this.homeTeamId = homeTeamId;
+    public boolean isWhiteHome() {
+        return isWhiteHome;
+    }
+
+    public void setWhiteHome(boolean whiteHome) {
+        isWhiteHome = whiteHome;
     }
 
     public int getSeason() {

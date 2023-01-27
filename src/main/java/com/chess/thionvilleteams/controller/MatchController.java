@@ -1,7 +1,7 @@
 package com.chess.thionvilleteams.controller;
 
-import com.chess.thionvilleteams.model.Match;
-import com.chess.thionvilleteams.repository.MatchRepository;
+import com.chess.thionvilleteams.dto.MatchDTO;
+import com.chess.thionvilleteams.mapper.MatchMapper;
 import com.chess.thionvilleteams.service.MatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,31 +14,32 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MatchController {
     private final MatchService service;
-    private final MatchRepository matchRepository;
+    private final MatchMapper matchMapper;
 
-    public MatchController(MatchService matchService,
-                           MatchRepository matchRepository) {
+    public MatchController(MatchService matchService, MatchMapper matchMapper) {
+
         this.service = matchService;
-        this.matchRepository = matchRepository;
+        this.matchMapper = matchMapper;
+
     }
 
     @GetMapping
-    public ResponseEntity<Match> getOne(@RequestParam("id") long id) {
-        return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+    public ResponseEntity<MatchDTO> getOne(@RequestParam("id") long id) {
+        return new ResponseEntity<>(matchMapper.convert(service.getById(id)), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public ResponseEntity<List<Match>> getAll() {
-        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<MatchDTO>> getAll() {
+        return new ResponseEntity<>(service.getAll().stream().map(matchMapper::convert).toList(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/board-info", method = RequestMethod.GET)
+    /* @RequestMapping(path = "/board-info", method = RequestMethod.GET)
     public ResponseEntity<List<MatchRepository.BoardInfo>> getBoardInfoList(@RequestParam("match_id") long matchId) {
-        return new ResponseEntity<>(matchRepository.getBoardInfoList(matchId), HttpStatus.OK);
-    }
+        return new ResponseEntity<>(service.getBoardInfoList(matchId), HttpStatus.OK);
+    } */
 
-    @RequestMapping(path = "/match-info", method = RequestMethod.GET)
-    public ResponseEntity<List<MatchRepository.MatchInfo>> getMatchInfoList(@RequestParam("season") int season, @RequestParam("team_id") long teamId) {
+    /* public ResponseEntity<List<Match>> getMatchInfoList(int season, long teamId) {
+        var matchList
         return new ResponseEntity<>(service.getMatchInfoListBySeasonAndTeamId(season, teamId), HttpStatus.OK);
-    }
+    } */
 }
