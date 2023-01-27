@@ -14,20 +14,20 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MatchController {
     private final MatchService service;
-    private final MatchMapper matchMapper;
+    private final MatchMapper mapper;
 
-    public MatchController(MatchService matchService, MatchMapper matchMapper) {
-        this.service = matchService;
-        this.matchMapper = matchMapper;
+    public MatchController(MatchService service, MatchMapper mapper) {
+        this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<MatchDTO> getOne(@RequestParam("id") long id) {
-        return new ResponseEntity<>(matchMapper.convert(service.getById(id)), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.convert(service.getById(id)), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<MatchDTO>> getAll() {
-        return new ResponseEntity<>(service.getAll().stream().map(matchMapper::convert).toList(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getAll().stream().map(mapper::convert).toList(), HttpStatus.OK);
     }
 }
