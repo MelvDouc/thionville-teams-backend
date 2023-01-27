@@ -6,15 +6,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BoardInfoMapper {
-    private static final String WHITE_COLOR = "W";
-    private static final String BLACK_COLOR = "B";
+    private static final String WHITE_COLOR = "B";
+    private static final String BLACK_COLOR = "N";
 
     public BoardInfoDTO convert(BoardInfo boardInfo) {
         var boardInfoDTO = new BoardInfoDTO();
         var player = boardInfo.getPlayer();
         var match = boardInfo.getMatch();
         var board = boardInfo.getBoard();
-        var result = boardInfo.getResult();
 
         boardInfoDTO.setFfeId(player.getFfeId());
         boardInfoDTO.setLastName(player.getLastName());
@@ -24,8 +23,8 @@ public class BoardInfoMapper {
             boardInfoDTO.setColor(BoardInfoMapper.WHITE_COLOR);
         else
             boardInfoDTO.setColor(BoardInfoMapper.BLACK_COLOR);
-        if (result != null)
-            boardInfoDTO.setResult(result);
+        boardInfoDTO.setRating(player.getRating());
+        boardInfoDTO.setResult(boardInfo.getResult().ordinal());
 
         return boardInfoDTO;
     }

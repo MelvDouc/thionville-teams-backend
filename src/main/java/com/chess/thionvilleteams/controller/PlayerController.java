@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/players")
@@ -25,9 +24,9 @@ public class PlayerController {
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public ResponseEntity<List<Player>> getAll(@RequestParam("team_id") Optional<Long> teamId) {
-        final long id = teamId.orElse(0L);
-        if (id != 0L) return getAllByTeamId(id);
+    public ResponseEntity<List<Player>> getAll(@RequestParam("team_id") Long teamId) {
+        if (teamId != 0L)
+            return getAllByTeamId(teamId);
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 

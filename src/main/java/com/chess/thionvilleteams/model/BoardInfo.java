@@ -16,8 +16,9 @@ public class BoardInfo {
     private Match match;
     @Column(name = "board")
     private int board;
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "result")
-    private Float result;
+    private BoardInfoResult result;
 
     public long getId() {
         return id;
@@ -51,13 +52,11 @@ public class BoardInfo {
         this.board = board;
     }
 
-    public Float getResult() {
+    public BoardInfoResult getResult() {
         return result;
     }
 
-    public void setResult(Float result) {
-        if (result == null)
-            this.result = -3.14f;
+    public void setResult(BoardInfoResult result) {
         this.result = result;
     }
 }

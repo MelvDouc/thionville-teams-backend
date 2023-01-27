@@ -57,8 +57,8 @@ public class Match {
 
     public Team getHomeTeam() {
         return (isWhiteHome)
-                ? this.getWhiteTeam()
-                : this.getBlackTeam();
+            ? this.getWhiteTeam()
+            : this.getBlackTeam();
     }
 
     public boolean isWhiteHome() {

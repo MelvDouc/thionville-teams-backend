@@ -6,7 +6,8 @@ public class BoardInfoDTO {
     private String firstName;
     private int board;
     private String color;
-    private float result;
+    private int rating;
+    private int result;
 
     public String getFfeId() {
         return ffeId;
@@ -48,11 +49,19 @@ public class BoardInfoDTO {
         this.color = color;
     }
 
-    public float getResult() {
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public int getResult() {
         return result;
     }
 
-    public void setResult(Float result) {
+    public void setResult(int result) {
         this.result = result;
     }
 }

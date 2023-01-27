@@ -51,7 +51,7 @@ public class BoardInfoService implements IService<BoardInfo> {
             boardInfoInDb.setMatch(boardInfo.getMatch());
         if (boardInfo.getBoard() != boardInfoInDb.getBoard())
             boardInfoInDb.setBoard(boardInfo.getBoard());
-        if (result != null && !result.equals(boardInfoInDb.getResult()))
+        if (!result.equals(boardInfoInDb.getResult()))
             boardInfoInDb.setResult(result);
 
         return repository.save(boardInfoInDb);
