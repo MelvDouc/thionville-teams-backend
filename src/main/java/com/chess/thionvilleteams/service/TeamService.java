@@ -38,22 +38,26 @@ public class TeamService implements IService<Team> {
 
     @Override
     public Team update(Team team, long id) {
-        Team teamInDb = getById(id);
+        var teamInDb = getById(id);
+        var name = team.getName();
+        var address = team.getAddress();
+        var city = team.getCity();
+        var zip = team.getZip();
+        var tel = team.getTel();
+        var website = team.getWebsite();
 
-        if (!team.getName().equals(teamInDb.getName()))
-            teamInDb.setName(team.getName());
-        if (!team.getAddress().equals(teamInDb.getAddress()))
-            teamInDb.setAddress(team.getAddress());
-        if (!team.getAddress().equals(teamInDb.getAddress()))
-            teamInDb.setAddress(team.getAddress());
-        if (!team.getCity().equals(teamInDb.getCity()))
-            teamInDb.setCity(team.getCity());
-        if (!team.getZip().equals(teamInDb.getZip()))
-            teamInDb.setZip(team.getZip());
-        if (!team.getTel().equals(teamInDb.getTel()))
-            teamInDb.setTel(team.getTel());
-        if (!team.getWebsite().equals(teamInDb.getWebsite()))
-            teamInDb.setWebsite(team.getWebsite());
+        if (name != null && !name.equals(teamInDb.getName()))
+            teamInDb.setName(name);
+        if (address != null && !address.equals(teamInDb.getAddress()))
+            teamInDb.setAddress(address);
+        if (city != null && !city.equals(teamInDb.getCity()))
+            teamInDb.setCity(city);
+        if (zip != null && !zip.equals(teamInDb.getZip()))
+            teamInDb.setZip(zip);
+        if (tel != null && !tel.equals(teamInDb.getTel()))
+            teamInDb.setTel(tel);
+        if (website != null && !website.equals(teamInDb.getWebsite()))
+            teamInDb.setWebsite(website);
 
         return repository.save(teamInDb);
     }

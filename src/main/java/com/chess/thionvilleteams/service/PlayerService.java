@@ -42,22 +42,29 @@ public class PlayerService implements IService<Player> {
 
     @Override
     public Player update(Player player, long id) {
-        Player playerInDb = getById(id);
+        var playerInDb = getById(id);
+        var ffeId = player.getFfeId();
+        var firstName = player.getFirstName();
+        var lastName = player.getLastName();
+        var email = player.getEmail();
+        var tel = player.getTel();
+        var rating = player.getRating();
+        var teamId = player.getTeamId();
 
-        if (player.getFfeId() != null)
-            playerInDb.setFfeId(player.getFfeId());
-        if (player.getFirstName() != null)
-            playerInDb.setFirstName(player.getFirstName());
-        if (player.getLastName() != null)
-            playerInDb.setLastName(player.getLastName());
-        if (player.getEmail() != null)
-            playerInDb.setEmail(player.getEmail());
-        if (player.getTel() != null)
-            playerInDb.setTel(player.getTel());
-        if (player.getRating() != playerInDb.getRating())
-            playerInDb.setRating(player.getRating());
-        if (player.getTeamId() != playerInDb.getTeamId())
-            playerInDb.setTeamId(player.getTeamId());
+        if (ffeId != null && !ffeId.equals(playerInDb.getFfeId()))
+            playerInDb.setFfeId(ffeId);
+        if (firstName != null && !firstName.equals(playerInDb.getFirstName()))
+            playerInDb.setFirstName(firstName);
+        if (lastName != null && !lastName.equals(playerInDb.getLastName()))
+            playerInDb.setLastName(lastName);
+        if (email != null && !email.equals(playerInDb.getEmail()))
+            playerInDb.setEmail(email);
+        if (tel != null && !tel.equals(playerInDb.getTel()))
+            playerInDb.setTel(tel);
+        if (rating != 0 && rating != playerInDb.getRating())
+            playerInDb.setRating(rating);
+        if (teamId != playerInDb.getTeamId())
+            playerInDb.setTeamId(teamId);
         playerInDb.setUpdatedAt(ServiceUtils.getUpdateTime());
 
         return repository.save(playerInDb);
