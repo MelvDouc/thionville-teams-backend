@@ -11,5 +11,7 @@ public interface IBoardInfo {
 
     char getColor();
 
+    int getRating();
+
     float getResult();
 }
