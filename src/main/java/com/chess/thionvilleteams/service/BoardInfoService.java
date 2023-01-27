@@ -31,8 +31,8 @@ public class BoardInfoService implements IService<BoardInfo> {
         return repository.findAll();
     }
 
-    public List<BoardInfo> getAllByMatchId(long matchId) {
-        return repository.findByMatchId(matchId);
+    public List<BoardInfo> getAllBySeasonAndRound(int season, int round) {
+        return repository.findBySeasonAndRound(season, round);
     }
 
     @Override
@@ -43,6 +43,7 @@ public class BoardInfoService implements IService<BoardInfo> {
     @Override
     public BoardInfo update(BoardInfo boardInfo, long id) {
         var boardInfoInDb = getById(id);
+        var result = boardInfo.getResult();
 
         if (boardInfo.getPlayer().getId() != boardInfoInDb.getPlayer().getId())
             boardInfoInDb.setPlayer(boardInfo.getPlayer());
@@ -50,8 +51,8 @@ public class BoardInfoService implements IService<BoardInfo> {
             boardInfoInDb.setMatch(boardInfo.getMatch());
         if (boardInfo.getBoard() != boardInfoInDb.getBoard())
             boardInfoInDb.setBoard(boardInfo.getBoard());
-        if (boardInfo.getResult() != boardInfoInDb.getResult())
-            boardInfoInDb.setResult(boardInfo.getResult());
+        if (result != null && !result.equals(boardInfoInDb.getResult()))
+            boardInfoInDb.setResult(result);
 
         return repository.save(boardInfoInDb);
     }

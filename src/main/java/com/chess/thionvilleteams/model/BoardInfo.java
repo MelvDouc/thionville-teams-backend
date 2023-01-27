@@ -17,7 +17,7 @@ public class BoardInfo {
     @Column(name = "board")
     private int board;
     @Column(name = "result")
-    private float result;
+    private Float result;
 
     public long getId() {
         return id;
@@ -51,11 +51,13 @@ public class BoardInfo {
         this.board = board;
     }
 
-    public float getResult() {
+    public Float getResult() {
         return result;
     }
 
-    public void setResult(float result) {
+    public void setResult(Float result) {
+        if (result == null)
+            this.result = -3.14f;
         this.result = result;
     }
 }

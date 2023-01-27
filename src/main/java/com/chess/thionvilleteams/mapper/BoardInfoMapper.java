@@ -14,6 +14,7 @@ public class BoardInfoMapper {
         var player = boardInfo.getPlayer();
         var match = boardInfo.getMatch();
         var board = boardInfo.getBoard();
+        var result = boardInfo.getResult();
 
         boardInfoDTO.setFfeId(player.getFfeId());
         boardInfoDTO.setLastName(player.getLastName());
@@ -23,7 +24,8 @@ public class BoardInfoMapper {
             boardInfoDTO.setColor(BoardInfoMapper.WHITE_COLOR);
         else
             boardInfoDTO.setColor(BoardInfoMapper.BLACK_COLOR);
-        boardInfoDTO.setResult(boardInfo.getResult());
+        if (result != null)
+            boardInfoDTO.setResult(result);
 
         return boardInfoDTO;
     }

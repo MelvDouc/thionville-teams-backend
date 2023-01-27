@@ -25,9 +25,9 @@ public class BoardInfoController {
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<List<BoardInfoDTO>> getAllByMatchId(@RequestParam("match_id") long matchId) {
+    public ResponseEntity<List<BoardInfoDTO>> getAllByMatchId(@RequestParam("season") int season, @RequestParam("round") int round) {
         return new ResponseEntity<>(
-                service.getAllByMatchId(matchId).stream().map(mapper::convert).toList(),
+                service.getAllBySeasonAndRound(season, round).stream().map(mapper::convert).toList(),
                 HttpStatus.OK
         );
     }

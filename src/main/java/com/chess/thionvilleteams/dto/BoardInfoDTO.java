@@ -52,7 +52,7 @@ public class BoardInfoDTO {
         return result;
     }
 
-    public void setResult(float result) {
+    public void setResult(Float result) {
         this.result = result;
     }
 }
