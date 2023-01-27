@@ -17,10 +17,8 @@ public class MatchController {
     private final MatchMapper matchMapper;
 
     public MatchController(MatchService matchService, MatchMapper matchMapper) {
-
         this.service = matchService;
         this.matchMapper = matchMapper;
-
     }
 
     @GetMapping
@@ -32,14 +30,4 @@ public class MatchController {
     public ResponseEntity<List<MatchDTO>> getAll() {
         return new ResponseEntity<>(service.getAll().stream().map(matchMapper::convert).toList(), HttpStatus.OK);
     }
-
-    /* @RequestMapping(path = "/board-info", method = RequestMethod.GET)
-    public ResponseEntity<List<MatchRepository.BoardInfo>> getBoardInfoList(@RequestParam("match_id") long matchId) {
-        return new ResponseEntity<>(service.getBoardInfoList(matchId), HttpStatus.OK);
-    } */
-
-    /* public ResponseEntity<List<Match>> getMatchInfoList(int season, long teamId) {
-        var matchList
-        return new ResponseEntity<>(service.getMatchInfoListBySeasonAndTeamId(season, teamId), HttpStatus.OK);
-    } */
 }
